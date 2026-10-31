@@ -3,6 +3,8 @@ import { Libre_Baskerville, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import NaVBar from "@/components/NaVBar";
+import FooterSection from "@/components/FooterSection";
+import { Toaster } from "react-hot-toast";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -28,6 +30,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       >
         <NaVBar />
         <div>{children}</div>
+        <FooterSection />
+        <Toaster />
       </body>
     </html>
   );

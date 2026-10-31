@@ -1,5 +1,6 @@
 "use client";
 
+import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
@@ -20,8 +21,9 @@ const NaVBar = () => {
       <div className="container mx-auto flex items-center justify-between py-4">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded bg-[#1E3A2F] flex items-center justify-center text-xl text-white shadow-sm">
-            📖
+          <div className="w-10 h-10 rounded bg-[#1E3A2F] flex items-center justify-center text-white shadow-sm">
+            {/* Lucide React কম্পোনেন্ট */}
+            <BookOpen className="w-5 h-5 text-white" />
           </div>
           <div>
             <h2 className="text-xl font-bold tracking-tight text-[#1E3A2F]">
@@ -52,18 +54,22 @@ const NaVBar = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          <Button
-            variant="default"
-            className="bg-[#1E3A2F] hover:bg-[#162B23] text-white px-5 py-2 font-semibold shadow-sm"
-          >
-            Login
-          </Button>
-          <Button
-            variant="outline"
-            className="border-[#1E3A2F] text-[#1E3A2F] hover:bg-[#FDFBF7] px-5 py-2 font-semibold"
-          >
-            Register
-          </Button>
+          <Link href={"/login"}>
+            <Button
+              variant="default"
+              className="bg-[#1E3A2F] hover:bg-[#162B23] text-white px-5 py-2 font-semibold shadow-sm"
+            >
+              Login
+            </Button>
+          </Link>
+          <Link href={"/register"}>
+            <Button
+              variant="outline"
+              className="border-[#1E3A2F] text-[#1E3A2F] hover:bg-[#FDFBF7] px-5 py-2 font-semibold"
+            >
+              Register
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
