@@ -4,8 +4,26 @@ import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
+import { signOut, useSession } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const NaVBar = () => {
+  const { data: session } = useSession();
+  const user = session?.user;
+  // console.log(user);
+
+  const handleSignOut = () => {
+    signOut();
+  };
+
   const pathname = usePathname();
 
   const navLinks = [
@@ -54,22 +72,56 @@ const NaVBar = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          <Link href={"/login"}>
-            <Button
-              variant="default"
-              className="bg-[#1E3A2F] hover:bg-[#162B23] text-white px-5 py-2 font-semibold shadow-sm"
-            >
-              Login
-            </Button>
-          </Link>
-          <Link href={"/register"}>
-            <Button
-              variant="outline"
-              className="border-[#1E3A2F] text-[#1E3A2F] hover:bg-[#FDFBF7] px-5 py-2 font-semibold"
-            >
-              Register
-            </Button>
-          </Link>
+          {/* এখানে আমারা কন্ডিশনাল রেন্ডারিং করলাম। */}
+          {user ? (
+            <Popover>
+              <PopoverTrigger
+                render={
+                  <Avatar>
+                    <AvatarImage
+                      referrerPolicy="no-referrer"
+                      src={user?.image as string}
+                    />
+                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                }
+              ></PopoverTrigger>
+              <PopoverContent>
+                <PopoverHeader>
+                  <PopoverTitle>{user?.name}</PopoverTitle>
+                  <PopoverDescription>
+                    <p>{user?.email}</p>
+                    <Button
+                      onClick={handleSignOut}
+                      variant={"destructive"}
+                      className={"w-full"}
+                    >
+                      SignOut
+                    </Button>
+                  </PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+          ) : (
+            <>
+              <Link href={"/login"}>
+                <Button
+                  variant="default"
+                  className="bg-[#1E3A2F] hover:bg-[#162B23] text-white px-5 py-2 font-semibold shadow-sm"
+                >
+                  Login
+                </Button>
+              </Link>
+              <Link href={"/register"}>
+                <Button
+                  variant="outline"
+                  className="border-[#1E3A2F] text-[#1E3A2F] hover:bg-[#FDFBF7] px-5 py-2 font-semibold"
+                >
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
