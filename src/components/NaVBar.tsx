@@ -17,7 +17,7 @@ const NaVBar = () => {
   ];
 
   return (
-    <div className="bg-[#FFFFFF] border-b border-[#E5E7EB] mb-5">
+    <div className="bg-[#FFFFFF] border-b border-[#E5E7EB]">
       <div className="container mx-auto flex items-center justify-between py-4">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">

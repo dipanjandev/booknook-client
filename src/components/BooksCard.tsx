@@ -49,7 +49,7 @@ const BooksCard = ({ book }: { book: IBookType }) => {
 
       {/* Action Footer */}
       <CardFooter className="px-5 pb-5 pt-0">
-        <Link href={`/books/${book._id}`} className="w-full">
+        <Link href={`/allbooks/${book._id}`} className="w-full">
           <Button className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 rounded shadow-sm transition-colors">
             View Details
           </Button>

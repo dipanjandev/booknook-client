@@ -25,11 +25,10 @@ const AddBooksPage = () => {
   // ডেমো লগইন ইউজার ডেটা (অথ স্টেট থেকে ডাইনামিক্যালি রিপ্লেস করা যাবে)
   const loggedInUser = {
     name: "Dipanjan Roy",
-    email: "dipanjan.webdev@gmail.com",
+    email: "dipanjan.shirso@gmail.com",
   };
 
   const [category, setCategory] = useState<string | null>("");
-  // console.log(category);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +36,10 @@ const AddBooksPage = () => {
     const title = (form.elements.namedItem("title") as HTMLInputElement).value;
     const author = (form.elements.namedItem("author") as HTMLInputElement)
       .value;
+    const quantity = parseInt(
+      (form.elements.namedItem("quantity") as HTMLInputElement).value,
+      10,
+    );
     const image = (form.elements.namedItem("image") as HTMLInputElement).value;
     const description = (
       form.elements.namedItem("description") as HTMLTextAreaElement
@@ -46,6 +49,7 @@ const AddBooksPage = () => {
       title,
       author,
       category,
+      quantity,
       image,
       description,
       userName: loggedInUser.name,
@@ -54,22 +58,27 @@ const AddBooksPage = () => {
     };
 
     console.log("Book Data to Submit:", newBook);
-    // TODO: ব্যাকএন্ডে POST রিকোয়েস্ট ও সাকসেস টোস্ট কল হবে
-    const res = await fetch("http://localhost:5000/allbooks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newBook),
-    });
-    const data = await res.json();
-    // console.log(data);
 
-    // Use React Hot toast Here
-    if (data.insertedId) {
-      toast.success("Book Added Successfully");
-    } else {
-      toast.error("Something Went Wrong");
+    try {
+      const res = await fetch("http://localhost:5000/allbooks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newBook),
+      });
+      const data = await res.json();
+
+      if (data.insertedId) {
+        toast.success("Book Added Successfully");
+        form.reset();
+        setCategory("");
+      } else {
+        toast.error("Something Went Wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to connect to the server");
     }
   };
 
@@ -121,29 +130,52 @@ const AddBooksPage = () => {
               />
             </div>
 
-            {/* Category Select Box */}
-            <div className="space-y-2">
-              <Label
-                htmlFor="category"
-                className="text-sm font-semibold text-[#1F2937]"
-              >
-                Category
-              </Label>
-              <Select onValueChange={setCategory} required>
-                <SelectTrigger className="border-[#E5E7EB] focus:ring-[#1E3A2F]">
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent className="bg-[#FFFFFF] border-[#E5E7EB]">
-                  <SelectItem value="Fiction">Fiction</SelectItem>
-                  <SelectItem value="Science">Science</SelectItem>
-                  <SelectItem value="History">History</SelectItem>
-                  <SelectItem value="Kids">Kids</SelectItem>
-                  <SelectItem value="Others">Others</SelectItem>
-                </SelectContent>
-              </Select>
+            {/* Category and Total Copies (Quantity) Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label
+                  htmlFor="category"
+                  className="text-sm font-semibold text-[#1F2937]"
+                >
+                  Category
+                </Label>
+                <Select
+                  onValueChange={(val) => setCategory(val as string)}
+                  required
+                >
+                  <SelectTrigger className="border-[#E5E7EB] focus:ring-[#1E3A2F]">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#FFFFFF] border-[#E5E7EB]">
+                    <SelectItem value="Fiction">Fiction</SelectItem>
+                    <SelectItem value="Science">Science</SelectItem>
+                    <SelectItem value="History">History</SelectItem>
+                    <SelectItem value="Kids">Kids</SelectItem>
+                    <SelectItem value="Others">Others</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="quantity"
+                  className="text-sm font-semibold text-[#1F2937]"
+                >
+                  Total Copies
+                </Label>
+                <Input
+                  id="quantity"
+                  name="quantity"
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  required
+                  className="border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                />
+              </div>
             </div>
 
-            {/* Book Image Link (ImgBB / PostImage / Hosted Link) */}
+            {/* Book Image Link */}
             <div className="space-y-2">
               <Label
                 htmlFor="image"
