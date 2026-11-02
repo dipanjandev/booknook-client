@@ -96,10 +96,10 @@ const SingleBookPage = async ({
 
                 <Separator className="bg-[#E5E7EB] mb-6" />
 
-                {/* Synopsis / Description */}
+                {/*  Description */}
                 <div className="mb-8">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[#D97706] mb-2">
-                    Synopsis
+                    Short Description
                   </h3>
                   <p className="text-[#1F2937] text-sm leading-relaxed whitespace-pre-line">
                     {data.description}

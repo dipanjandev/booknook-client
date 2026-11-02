@@ -20,13 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
 
 const AddBooksPage = () => {
-  // ডেমো লগইন ইউজার ডেটা (অথ স্টেট থেকে ডাইনামিক্যালি রিপ্লেস করা যাবে)
-  const loggedInUser = {
-    name: "Dipanjan Roy",
-    email: "dipanjan.shirso@gmail.com",
-  };
+  const { data: session } = useSession();
+  // console.log(session);
+  const user = session?.user;
+  // console.log(user);
 
   const [category, setCategory] = useState<string | null>("");
 
@@ -52,8 +52,8 @@ const AddBooksPage = () => {
       quantity,
       image,
       description,
-      userName: loggedInUser.name,
-      userEmail: loggedInUser.email,
+      userName: user?.name,
+      userEmail: user?.email,
       addedDate: new Date().toISOString(),
     };
 
@@ -222,7 +222,7 @@ const AddBooksPage = () => {
                 </Label>
                 <Input
                   id="userName"
-                  value={loggedInUser.name}
+                  value={user?.name}
                   readOnly
                   className="bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
                 />
@@ -237,7 +237,7 @@ const AddBooksPage = () => {
                 </Label>
                 <Input
                   id="userEmail"
-                  value={loggedInUser.email}
+                  value={user?.email}
                   readOnly
                   className="bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
                 />
