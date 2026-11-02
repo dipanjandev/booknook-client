@@ -17,9 +17,32 @@ const NaVBar = () => {
   const { data: session } = useSession();
   const user = session?.user;
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    try {
+      await signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            // সেশন ক্লিয়ার হওয়া নিশ্চিত করে হোমপেজে ফুল হার্ড রিলোড নেওয়া
+            window.location.replace("/login");
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Sign out error:", error);
+      window.location.replace("/login");
+    }
   };
+
+  // const handleSignOut = async () => {
+  //   await signOut({
+  //     fetchOptions: {
+  //       onSuccess: () => {
+  //         // সাইন আউট সফল হলে ব্রাউজার সম্পূর্ণ ফ্রেশ ও হার্ড রিলোড নিয়ে হোমপেজে চলে যাবে
+  //         redirect("/");
+  //       },
+  //     },
+  //   });
+  // };
 
   const pathname = usePathname();
 

@@ -3,7 +3,7 @@ import { IBookType } from "./allbooks/page";
 import RecentBooks from "@/components/RecentBooks";
 
 export default async function Home() {
-  const res = await fetch("http://localhost:5000/recentlyadded");
+  const res = await fetch("http://localhost:5000/allbooks");
   const allBooks: IBookType[] = await res.json();
   return (
     <div>
