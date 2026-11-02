@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Calendar, Mail, User } from "lucide-react";
+import { ArrowLeft, Calendar, Mail, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { IBookType } from "../page";
 import Image from "next/image";
+import BorrowButton from "@/components/BorrowButton";
 
 const SingleBookPage = async ({
   params,
@@ -133,13 +134,7 @@ const SingleBookPage = async ({
                 </div>
 
                 {/* Borrow Button */}
-                <Button
-                  disabled={data.quantity === 0}
-                  className="w-full bg-[#1E3A2F] hover:bg-[#162B23] disabled:bg-[#9CA3AF] text-white font-semibold py-3 h-auto text-base shadow-sm transition-all flex items-center justify-center gap-2"
-                >
-                  <BookOpen className="w-5 h-5" />
-                  {data.quantity > 0 ? "Borrow This Book" : "Out of Stock"}
-                </Button>
+                <BorrowButton book={data} />
               </div>
             </div>
           </div>

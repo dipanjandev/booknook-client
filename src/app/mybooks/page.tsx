@@ -13,7 +13,6 @@ const MyBooksPage = () => {
   const user = session?.user;
 
   const [books, setBooks] = useState<IBookType[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // ১. ব্যাকএন্ড থেকে বই লোড করা
   useEffect(() => {
@@ -23,11 +22,9 @@ const MyBooksPage = () => {
       .then((res) => res.json())
       .then((data) => {
         setBooks(data);
-        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
-        setLoading(false);
       });
   }, [user?.email, isPending, user]);
 
@@ -85,17 +82,6 @@ const MyBooksPage = () => {
       return false;
     }
   };
-
-  // লোডিং স্টেট
-  if (isPending || (user && loading)) {
-    return (
-      <div className="min-h-[70vh] flex items-center justify-center bg-[#FDFBF7]">
-        <p className="text-[#1E3A2F] font-serif animate-pulse">
-          Loading your books...
-        </p>
-      </div>
-    );
-  }
 
   // লগইন না থাকলে
   if (!user) {

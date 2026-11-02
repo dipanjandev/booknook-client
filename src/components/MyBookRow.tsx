@@ -135,7 +135,7 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                 </Button>
               }
             />
-            <DialogContent className="max-w-lg bg-white border border-[#E5E7EB] p-6 rounded-xl shadow-lg">
+            <DialogContent className="sm:max-w-2xl bg-white border border-[#E5E7EB] p-6 rounded-xl shadow-lg">
               <DialogHeader>
                 <DialogTitle className="text-xl font-bold text-[#1E3A2F]">
                   Update Book Details
