@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import MyBookRow from "@/components/MyBookRow";
@@ -30,11 +30,21 @@ const MyBooksPage = () => {
 
   // ২. ডিলিট হ্যান্ডলার
   const handleDeleteBook = async (id: string) => {
+    // client side এ টোকেন এর জন্য।
+    const { data, error } = await authClient.token();
+    const token = data?.token;
+    if (error) {
+      toast.error("Something went Wrong!");
+    }
+
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks/${id}`,
         {
           method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         },
       );
       const data = await res.json();

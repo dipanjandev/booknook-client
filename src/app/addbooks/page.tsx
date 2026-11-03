@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 
 const AddBooksPage = () => {
   const { data: session } = useSession();
@@ -57,7 +57,14 @@ const AddBooksPage = () => {
       addedDate: new Date().toISOString(),
     };
 
-    console.log("Book Data to Submit:", newBook);
+    // console.log("Book Data to Submit:", newBook);
+
+    // client side এ টোকেন এর জন্য।
+    const { data, error } = await authClient.token();
+    const token = data?.token;
+    if (error) {
+      toast.error("Something went Wrong!");
+    }
 
     try {
       const res = await fetch(
@@ -66,6 +73,7 @@ const AddBooksPage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(newBook),
         },

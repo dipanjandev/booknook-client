@@ -7,6 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { IBookType } from "../page";
 import Image from "next/image";
 import BorrowButton from "@/components/BorrowButton";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const SingleBookPage = async ({
   params,
@@ -15,10 +17,19 @@ const SingleBookPage = async ({
 }) => {
   const { booksId } = await params;
 
+  // সার্ভার সাইডে টোকেন এর জন্য।
+  const jwtToken = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const token = jwtToken?.token;
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks/${booksId}`,
     {
-      cache: "no-store",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     },
   );
   const data: IBookType = await res.json();
