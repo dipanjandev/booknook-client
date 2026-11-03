@@ -7,7 +7,6 @@ import BorrowRow, { IBorrowItem } from "@/components/BorrowRow";
 export const dynamic = "force-dynamic";
 
 const MyBorrowsPage = async () => {
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -30,7 +29,9 @@ const MyBorrowsPage = async () => {
   }
 
   // ৩. ব্যাকএন্ড থেকে সার্ভার-সাইডে ইউজারের ধার করা বই ফেচ করা
-  const res = await fetch(`http://localhost:5000/myborrows/${user.email}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/myborrows/${user.email}`,
+  );
   const borrows: IBorrowItem[] = await res.json();
 
   return (

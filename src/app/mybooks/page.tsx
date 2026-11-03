@@ -18,7 +18,7 @@ const MyBooksPage = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:5000/mybooks/${user.email}`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/mybooks/${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setBooks(data);
@@ -31,9 +31,12 @@ const MyBooksPage = () => {
   // ২. ডিলিট হ্যান্ডলার
   const handleDeleteBook = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/allbooks/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
       const data = await res.json();
 
       if (data.deletedCount > 0) {
@@ -54,13 +57,16 @@ const MyBooksPage = () => {
     updatedData: Partial<IBookType>,
   ): Promise<boolean> => {
     try {
-      const res = await fetch(`http://localhost:5000/allbooks/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
         },
-        body: JSON.stringify(updatedData),
-      });
+      );
 
       const data = await res.json();
 

@@ -15,9 +15,12 @@ const SingleBookPage = async ({
 }) => {
   const { booksId } = await params;
 
-  const res = await fetch(`http://localhost:5000/allbooks/${booksId}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks/${booksId}`,
+    {
+      cache: "no-store",
+    },
+  );
   const data: IBookType = await res.json();
 
   const formattedDate = data.addedDate

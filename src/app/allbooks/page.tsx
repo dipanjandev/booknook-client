@@ -14,7 +14,7 @@ export interface IBookType {
 }
 
 const AllBooksPage = async () => {
-  const res = await fetch("http://localhost:5000/allbooks", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks`, {
     cache: "no-store", // রিয়েল-টাইম আপডেটের জন্য
   });
   const allBooks: IBookType[] = await res.json();

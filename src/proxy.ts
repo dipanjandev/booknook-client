@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
   const user = session?.user;
   //   console.log(user);
   if (!user) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   //   console.log(session);
@@ -21,5 +21,5 @@ export async function proxy(request: NextRequest) {
 // export default function proxy(request: NextRequest) { ... }
 
 export const config = {
-  matcher: ["/addbooks", "/mybooks", "/myborrows"],
+  matcher: ["/addbooks", "/allbooks/:path", "/mybooks", "/myborrows"],
 };

@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useSession } from "@/lib/auth-client";
 import { IBookType } from "@/app/allbooks/page";
 import { useRouter } from "next/navigation";
-import { Mail, User } from "lucide-react";
+import { CalendarClock, Mail, User } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,8 +30,19 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
 
   const [currentQuantity] = useState(book.quantity);
   const [loading, setLoading] = useState(false);
-  // ১. পপআপ সাথে সাথে ক্লোজ করার জন্য ওপেন স্টেট ব্যবহার করা হল।
   const [isOpen, setIsOpen] = useState(false);
+
+  // ১. বর্তমান তারিখ এবং ৭ দিন পরের রিটার্ন হিসাব
+  const borrowDate = new Date();
+  const returnDate = new Date();
+  returnDate.setDate(borrowDate.getDate() + 7);
+
+  // পপআপে দেখানোর জন্য ফরম্যাট
+  const formattedReturnDeadline = returnDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
   const handleBorrow = async () => {
     if (!user) {
@@ -44,10 +55,10 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
       return;
     }
 
-    // ২. বাটনে চাপ দেওয়ার সাথে সাথেই পপআপ বন্ধ হয়ে যাবে।
     setIsOpen(false);
     setLoading(true);
 
+    // ২. borrowInfo-তে borrowDate ও returnDate যুক্ত করা
     const borrowInfo = {
       bookId: book._id,
       title: book.title,
@@ -55,11 +66,14 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
       category: book.category,
       userEmail: user.email,
       userName: user.name,
-      borrowDate: new Date().toISOString(),
+      borrowDate: borrowDate.toISOString(),
+      returnDate: returnDate.toISOString(), // ৭ দিন পরের তারিখ
     };
 
     try {
-      const res = await fetch("http://localhost:5000/borrows", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+      const res = await fetch(`${backendUrl}/borrows`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,6 +110,7 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      {/* asChild দিলে বাটনটি তার সম্পূর্ণ উইডথ নিতে পারে */}
       <AlertDialogTrigger>
         <Button
           disabled={currentQuantity <= 0 || loading}
@@ -112,11 +127,12 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
           </AlertDialogTitle>
           <AlertDialogDescription className="text-sm text-[#4B5563]">
             Are you sure you want to borrow{" "}
-            <strong className="text-[#1F2937]">{book.title}</strong>?
+            <strong className="text-[#1F2937]">{book.title}</strong>? You can
+            keep this book for a maximum of <strong>7 days</strong>.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        {/* Borrower details in English */}
+        {/* ব্যবহারকারীর তথ্য ও রিটার্ন ডেট বক্স */}
         <div className="bg-[#FDFBF7] border border-[#E5E7EB] rounded-lg p-3.5 my-2 space-y-2 text-xs">
           <div className="flex items-center gap-2 text-[#1F2937]">
             <User className="w-4 h-4 text-[#D97706]" />
@@ -127,6 +143,11 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
             <Mail className="w-4 h-4 text-[#D97706]" />
             <span className="font-semibold">Email:</span>
             <span>{user.email}</span>
+          </div>
+          <div className="flex items-center gap-2 text-[#1E3A2F] pt-1 border-t border-[#E5E7EB]/70 font-medium">
+            <CalendarClock className="w-4 h-4 text-[#D97706]" />
+            <span className="font-semibold">Return Deadline:</span>
+            <span>{formattedReturnDeadline} (Within 7 Days)</span>
           </div>
         </div>
 

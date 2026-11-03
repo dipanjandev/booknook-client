@@ -60,13 +60,16 @@ const AddBooksPage = () => {
     console.log("Book Data to Submit:", newBook);
 
     try {
-      const res = await fetch("http://localhost:5000/allbooks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newBook),
         },
-        body: JSON.stringify(newBook),
-      });
+      );
       const data = await res.json();
 
       if (data.insertedId) {

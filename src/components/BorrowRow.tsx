@@ -58,7 +58,10 @@ const BorrowRow = ({ item }: BorrowRowProps) => {
   const handleReturn = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/myborrows/${item._id}`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      console.log("backendUrl", backendUrl);
+
+      const res = await fetch(`${backendUrl}/myborrows/${item._id}`, {
         method: "DELETE",
       });
       const data = await res.json();
