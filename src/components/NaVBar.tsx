@@ -33,17 +33,6 @@ const NaVBar = () => {
     }
   };
 
-  // const handleSignOut = async () => {
-  //   await signOut({
-  //     fetchOptions: {
-  //       onSuccess: () => {
-  //         // সাইন আউট সফল হলে ব্রাউজার সম্পূর্ণ ফ্রেশ ও হার্ড রিলোড নিয়ে হোমপেজে চলে যাবে
-  //         redirect("/");
-  //       },
-  //     },
-  //   });
-  // };
-
   const pathname = usePathname();
 
   const publicLinks = [
