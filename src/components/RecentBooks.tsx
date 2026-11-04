@@ -5,7 +5,9 @@ import BooksCard from "./BooksCard";
 import { IBookType } from "@/app/allbooks/page";
 
 const RecentBooks = async () => {
-  const res = await fetch("http://localhost:5000/recentlyadded");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/recentlyadded`,
+  );
   const recentBooks: IBookType[] = await res.json();
 
   return (

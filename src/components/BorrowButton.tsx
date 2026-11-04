@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { IBookType } from "@/app/allbooks/page";
 import { useRouter } from "next/navigation";
 import { CalendarClock, Mail, User } from "lucide-react";
@@ -24,11 +24,10 @@ interface BorrowButtonProps {
 }
 
 const BorrowButton = ({ book }: BorrowButtonProps) => {
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
   const user = session?.user;
   const router = useRouter();
 
-  const [currentQuantity] = useState(book.quantity);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,7 +49,7 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
       return;
     }
 
-    if (currentQuantity <= 0) {
+    if (book.quantity <= 0) {
       toast.error("This book is out of stock!");
       return;
     }
@@ -70,6 +69,13 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
       returnDate: returnDate.toISOString(), // ৭ দিন পরের তারিখ
     };
 
+    // client side এ টোকেন এর জন্য।
+    const { data, error } = await authClient.token();
+    const token = data?.token;
+    if (error) {
+      toast.error("Something went Wrong!");
+    }
+
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -77,6 +83,7 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(borrowInfo),
       });
@@ -97,10 +104,24 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
     }
   };
 
+  if (isPending) {
+    return (
+      <Button
+        disabled
+        className="w-full bg-[#1E3A2F]/80 text-white font-semibold py-3 h-auto text-base shadow-sm cursor-not-allowed"
+      >
+        Loading...
+      </Button>
+    );
+  }
+
   if (!user) {
     return (
       <Button
-        onClick={() => toast.error("Please login first to borrow books!")}
+        onClick={() => {
+          toast.error("Please login first to borrow books!");
+          router.push("/login");
+        }}
         className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-3 h-auto text-base shadow-sm transition-colors cursor-pointer"
       >
         Borrow This Book
@@ -110,15 +131,16 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      {/* asChild দিলে বাটনটি তার সম্পূর্ণ উইডথ নিতে পারে */}
-      <AlertDialogTrigger>
-        <Button
-          disabled={currentQuantity <= 0 || loading}
-          className="w-full bg-[#1E3A2F] hover:bg-[#162B23] disabled:bg-[#9CA3AF] text-white font-semibold py-3 h-auto text-base shadow-sm transition-colors cursor-pointer disabled:cursor-not-allowed"
-        >
-          {loading ? "Borrowing..." : "Borrow This Book"}
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={
+          <Button
+            disabled={book.quantity <= 0 || loading}
+            className="w-full bg-[#1E3A2F] hover:bg-[#162B23] disabled:bg-[#9CA3AF] text-white font-semibold py-3 h-auto text-base shadow-sm transition-colors cursor-pointer disabled:cursor-not-allowed"
+          >
+            {loading ? "Borrowing..." : "Borrow This Book"}
+          </Button>
+        }
+      />
 
       <AlertDialogContent className="bg-white border border-[#E5E7EB] rounded-xl shadow-lg max-w-md">
         <AlertDialogHeader>

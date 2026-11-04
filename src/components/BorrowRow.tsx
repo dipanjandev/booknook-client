@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { authClient } from "@/lib/auth-client";
 
 export interface IBorrowItem {
   _id: string;
@@ -57,12 +58,21 @@ const BorrowRow = ({ item }: BorrowRowProps) => {
   // বই ফেরত দেওয়ার হ্যান্ডলার
   const handleReturn = async () => {
     setLoading(true);
+    // client side এ টোকেন এর জন্য।
+    const { data, error } = await authClient.token();
+    const token = data?.token;
+    if (error) {
+      toast.error("Something went Wrong!");
+    }
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       console.log("backendUrl", backendUrl);
 
       const res = await fetch(`${backendUrl}/myborrows/${item._id}`, {
         method: "DELETE",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       });
       const data = await res.json();
 

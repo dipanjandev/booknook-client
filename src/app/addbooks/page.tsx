@@ -233,7 +233,7 @@ const AddBooksPage = () => {
                 </Label>
                 <Input
                   id="userName"
-                  value={user?.name}
+                  value={user?.name ?? ""}
                   readOnly
                   className="bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
                 />
@@ -248,7 +248,7 @@ const AddBooksPage = () => {
                 </Label>
                 <Input
                   id="userEmail"
-                  value={user?.email}
+                  value={user?.email ?? ""}
                   readOnly
                   className="bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
                 />

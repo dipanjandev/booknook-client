@@ -28,9 +28,20 @@ const MyBorrowsPage = async () => {
     );
   }
 
+  // সার্ভার সাইডে টোকেন এর জন্য।
+  const jwtToken = await auth.api.getToken({
+    headers: await headers(),
+  });
+  const token = jwtToken?.token;
+
   // ৩. ব্যাকএন্ড থেকে সার্ভার-সাইডে ইউজারের ধার করা বই ফেচ করা
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/myborrows/${user.email}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
   );
   const borrows: IBorrowItem[] = await res.json();
 

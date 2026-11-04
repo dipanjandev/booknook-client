@@ -286,15 +286,17 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
 
           {/* =================== ২. DELETE ALERT DIALOG =================== */}
           <AlertDialog>
-            <AlertDialogTrigger>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 text-xs font-normal"
-              >
-                Delete
-              </Button>
-            </AlertDialogTrigger>
+            <AlertDialogTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 text-xs font-normal"
+                >
+                  Delete
+                </Button>
+              }
+            />
             <AlertDialogContent className="bg-white border border-[#E5E7EB] rounded-xl shadow-lg">
               <AlertDialogHeader>
                 <AlertDialogTitle className="text-lg font-bold text-[#1F2937]">

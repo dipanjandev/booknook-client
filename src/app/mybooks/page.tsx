@@ -18,14 +18,30 @@ const MyBooksPage = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/mybooks/${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setBooks(data);
+    // এখানে একটা ফাংশন ডিক্লিয়ার করা হয়েছে।
+    const fetchMyBooks = async (): Promise<void> => {
+      // client side এ টোকেন এর জন্য।
+      const { data, error } = await authClient.token();
+      const token = data?.token;
+      if (error) {
+        toast.error("Something went Wrong!");
+      }
+
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/mybooks/${user.email}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       })
-      .catch((err) => {
-        console.error(err);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          setBooks(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+    // ফাংশন এর শেষে ফাংশনটিকে কল করা হয়েছে।
+    fetchMyBooks();
   }, [user?.email, isPending, user]);
 
   // ২. ডিলিট হ্যান্ডলার
@@ -67,12 +83,19 @@ const MyBooksPage = () => {
     updatedData: Partial<IBookType>,
   ): Promise<boolean> => {
     try {
+      // client side এ টোকেন এর জন্য। এখানে tokenData দেয়া হল কারণ, এখানে ডাটা দুই বার হয়ে গেছে সেজন্য।
+      const { data: tokenData, error } = await authClient.token();
+      const token = tokenData?.token;
+      if (error) {
+        toast.error("Something went Wrong!");
+      }
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/allbooks/${id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(updatedData),
         },
