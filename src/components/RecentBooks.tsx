@@ -7,8 +7,12 @@ import { IBookType } from "@/app/allbooks/page";
 const RecentBooks = async () => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/recentlyadded`,
+    {
+      cache: "no-store",
+    },
   );
   const recentBooks: IBookType[] = await res.json();
+  // console.log(recentBooks);
 
   return (
     <section className="my-16 container mx-auto">
