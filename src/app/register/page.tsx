@@ -70,8 +70,8 @@ const RegisterPage = () => {
 
     if (data) {
       // সফল হলে মেসেজ দেখাবে এবং লগইন পেজে নিয়ে যাবে
-      toast.success("Account created successfully! Please log in.");
-      router.push("/login"); // এখানে রিডাইরেক্ট যোগ করা হয়েছে
+      toast.success("Account created successfully!");
+      router.push("/"); // এখানে রিডাইরেক্ট যোগ করা হয়েছে
     }
 
     if (error) {
