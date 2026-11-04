@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BookOpen, KeyRound, Loader2, Mail } from "lucide-react";
@@ -20,7 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "@/lib/auth-client";
 
-const LoginPage = () => {
+const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/";
@@ -41,29 +41,38 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { data, error } = await signIn.email({
-      ...formData,
-    });
-    // console.log(data?.user.name);
+    try {
+      const { data, error } = await signIn.email({
+        ...formData,
+      });
 
-    // ব্যবহারকারীর নাম দেখানোর জন্য এটা ব্যবহার করা হয়েছে।
-    const name = data?.user.name;
-
-    if (data) {
-      toast.success(`Welcome back ${name}`);
-      router.push(redirectPath);
-    }
-    if (error) {
-      toast.error("Something Went Wrong Please Check Again!");
+      if (data) {
+        const name = data.user.name;
+        toast.success(`Welcome back ${name}`);
+        router.push(redirectPath);
+      }
+      if (error) {
+        toast.error(
+          error.message ||
+            "Something went wrong, please check your credentials.",
+        );
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("Failed to sign in. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   // Google Social Login Handler
   const handleGoogleLogin = async () => {
     try {
-      // TODO: গুগল সোশ্যাল লগইন মেথড ট্রিগার করুন
-      toast.success("Redirecting with Google...");
-      router.push(redirectPath);
+      toast.loading("Connecting with Google...");
+      await signIn.social({
+        provider: "google",
+        callbackURL: redirectPath,
+      });
     } catch {
       toast.error("Failed to authenticate with Google.");
     }
@@ -139,7 +148,7 @@ const LoginPage = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 h-auto rounded-lg shadow-sm transition-all"
+              className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 h-auto rounded-lg shadow-sm transition-all cursor-pointer"
             >
               {loading ? (
                 <div className="flex items-center gap-2">
@@ -169,7 +178,7 @@ const LoginPage = () => {
             type="button"
             variant="outline"
             onClick={handleGoogleLogin}
-            className="w-full border-[#E5E7EB] bg-white hover:bg-[#FDFBF7] text-[#1F2937] font-medium py-2.5 h-auto rounded-lg shadow-xs flex items-center justify-center gap-3 transition-all"
+            className="w-full border-[#E5E7EB] bg-white hover:bg-[#FDFBF7] text-[#1F2937] font-medium py-2.5 h-auto rounded-lg shadow-xs flex items-center justify-center gap-3 transition-all cursor-pointer"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
@@ -208,4 +217,21 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md h-96 bg-white border border-[#E5E7EB] rounded-2xl flex items-center justify-center shadow-md">
+            <div className="flex items-center gap-2 text-[#1E3A2F]">
+              <Loader2 className="w-6 h-6 animate-spin" />
+              <span className="text-sm font-medium">Loading login...</span>
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
+  );
+}
