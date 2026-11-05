@@ -44,11 +44,11 @@ interface MyBookRowProps {
 }
 
 const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
-  // এডিট ডায়ালগ ওপেন/ক্লোজ স্টেট
+  // এডিট ডায়ালগ ওপেন/ক্লোজ স্টেট
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // এডিট ফর্মের স্টেট (বইয়ের আগের ডেটা দিয়ে ইনিশিয়ালাইজ করা)
+  // এডিট ফর্মের স্টেট (বইয়ের আগের ডেটা দিয়ে ইনিশিয়ালাইজ করা)
   const [formData, setFormData] = useState({
     title: book.title,
     author: book.author,
@@ -85,22 +85,25 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
   return (
     <tr className="border-t border-[#E5E7EB] hover:bg-[#FDFBF7]/40 transition-colors">
       {/* Book Thumbnail + Title + Author */}
-      <td className="py-4 px-6">
-        <div className="flex items-center gap-4">
-          <div className="relative w-12 h-16 shrink-0 rounded overflow-hidden border border-[#E5E7EB] bg-white shadow-xs">
+      <td className="py-3 sm:py-4 px-4 sm:px-6">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="relative w-10 h-14 sm:w-12 sm:h-16 shrink-0 rounded overflow-hidden border border-[#E5E7EB] bg-white shadow-xs">
             <Image
               src={book.image}
               alt={book.title}
               fill
               className="object-cover"
-              sizes="48px"
+              sizes="(max-width: 640px) 40px, 48px"
             />
           </div>
-          <div>
-            <h3 className="font-medium text-[#1F2937] text-sm leading-tight">
+          <div className="min-w-0 max-w-45 sm:max-w-xs">
+            <h3
+              className="font-medium text-[#1F2937] text-xs sm:text-sm leading-tight truncate"
+              title={book.title}
+            >
               {book.title}
             </h3>
-            <p className="text-xs text-[#6B7280] mt-1 font-serif">
+            <p className="text-[11px] sm:text-xs text-[#6B7280] mt-1 font-serif truncate">
               {book.author}
             </p>
           </div>
@@ -108,20 +111,20 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
       </td>
 
       {/* Category */}
-      <td className="py-4 px-6 text-center">
-        <span className="inline-block bg-[#F3ECE0] text-[#785429] text-xs px-3 py-1 rounded-full font-medium">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 text-center whitespace-nowrap">
+        <span className="inline-block bg-[#F3ECE0] text-[#785429] text-[11px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full font-medium">
           {book.category}
         </span>
       </td>
 
       {/* Copies */}
-      <td className="py-4 px-6 text-center text-sm font-medium text-[#1F2937]">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium text-[#1F2937] whitespace-nowrap">
         {book.quantity}
       </td>
 
       {/* Actions */}
-      <td className="py-4 px-6 text-right">
-        <div className="flex items-center justify-end gap-2">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 text-right whitespace-nowrap">
+        <div className="flex items-center justify-end gap-1.5 sm:gap-2">
           {/* =================== ১. EDIT DIALOG =================== */}
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
             <DialogTrigger
@@ -129,15 +132,15 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-8 border-[#E5E7EB] text-[#1F2937] hover:bg-[#FDFBF7] text-xs font-normal"
+                  className="h-7 sm:h-8 px-2.5 sm:px-3 border-[#E5E7EB] text-[#1F2937] hover:bg-[#FDFBF7] text-[11px] sm:text-xs font-normal"
                 >
                   Edit
                 </Button>
               }
             />
-            <DialogContent className="sm:max-w-2xl bg-white border border-[#E5E7EB] p-6 rounded-xl shadow-lg">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-bold text-[#1E3A2F]">
+            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-sm sm:max-w-lg md:max-w-2xl bg-white border border-[#E5E7EB] p-4 sm:p-6 rounded-2xl shadow-lg max-h-[90vh] overflow-y-auto">
+              <DialogHeader className="text-left space-y-1">
+                <DialogTitle className="text-lg sm:text-xl font-bold text-[#1E3A2F]">
                   Update Book Details
                 </DialogTitle>
                 <DialogDescription className="text-xs text-[#6B7280]">
@@ -145,7 +148,10 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                 </DialogDescription>
               </DialogHeader>
 
-              <form onSubmit={handleEditSubmit} className="space-y-4 py-2">
+              <form
+                onSubmit={handleEditSubmit}
+                className="space-y-3 sm:space-y-4 py-2 text-left"
+              >
                 <div className="space-y-1">
                   <Label
                     htmlFor="title"
@@ -159,7 +165,7 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                     value={formData.title}
                     onChange={handleChange}
                     required
-                    className="h-9 text-sm"
+                    className="h-8.5 sm:h-9 text-xs sm:text-sm"
                   />
                 </div>
 
@@ -176,11 +182,11 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                     value={formData.author}
                     onChange={handleChange}
                     required
-                    className="h-9 text-sm"
+                    className="h-8.5 sm:h-9 text-xs sm:text-sm"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <Label className="text-xs font-semibold text-[#1F2937]">
                       Category
@@ -194,7 +200,7 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                         }))
                       }
                     >
-                      <SelectTrigger className="h-9 text-sm border-[#E5E7EB]">
+                      <SelectTrigger className="h-8.5 sm:h-9 text-xs sm:text-sm border-[#E5E7EB]">
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
                       <SelectContent className="bg-white">
@@ -222,7 +228,7 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                       value={formData.quantity}
                       onChange={handleChange}
                       required
-                      className="h-9 text-sm"
+                      className="h-8.5 sm:h-9 text-xs sm:text-sm"
                     />
                   </div>
                 </div>
@@ -241,7 +247,7 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                     value={formData.image}
                     onChange={handleChange}
                     required
-                    className="h-9 text-sm"
+                    className="h-8.5 sm:h-9 text-xs sm:text-sm"
                   />
                 </div>
 
@@ -259,23 +265,23 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                     value={formData.description}
                     onChange={handleChange}
                     required
-                    className="text-sm"
+                    className="text-xs sm:text-sm"
                   />
                 </div>
 
-                <DialogFooter className="pt-2">
+                <DialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0 pt-2">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setIsEditDialogOpen(false)}
-                    className="h-9 text-xs"
+                    className="w-full sm:w-auto h-8.5 sm:h-9 text-xs mt-0"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
                     disabled={isUpdating}
-                    className="h-9 text-xs bg-[#1E3A2F] hover:bg-[#162B23] text-white"
+                    className="w-full sm:w-auto h-8.5 sm:h-9 text-xs bg-[#1E3A2F] hover:bg-[#162B23] text-white"
                   >
                     {isUpdating ? "Saving..." : "Save Changes"}
                   </Button>
@@ -291,32 +297,32 @@ const MyBookRow = ({ book, onDelete, onUpdate }: MyBookRowProps) => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 text-xs font-normal"
+                  className="h-7 sm:h-8 px-2.5 sm:px-3 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 text-[11px] sm:text-xs font-normal"
                 >
                   Delete
                 </Button>
               }
             />
-            <AlertDialogContent className="bg-white border border-[#E5E7EB] rounded-xl shadow-lg">
-              <AlertDialogHeader>
-                <AlertDialogTitle className="text-lg font-bold text-[#1F2937]">
+            <AlertDialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-sm sm:max-w-md bg-white border border-[#E5E7EB] rounded-2xl p-4 sm:p-6 shadow-lg">
+              <AlertDialogHeader className="text-left space-y-1 sm:space-y-1.5">
+                <AlertDialogTitle className="text-base sm:text-lg font-bold text-[#1F2937]">
                   Are you absolutely sure?
                 </AlertDialogTitle>
-                <AlertDialogDescription className="text-sm text-[#6B7280]">
+                <AlertDialogDescription className="text-xs sm:text-sm text-[#6B7280] leading-relaxed">
                   This action cannot be undone. This will permanently remove{" "}
-                  <strong className="text-[#1F2937] font-semibold">
+                  <strong className="text-[#1F2937] font-semibold wrap-break-words">
                     {book.title}
                   </strong>{" "}
                   from the library collection.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel className="border-[#E5E7EB] text-xs">
+              <AlertDialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0 pt-2">
+                <AlertDialogCancel className="w-full sm:w-auto border-[#E5E7EB] text-xs py-2 sm:py-2.5 cursor-pointer mt-0">
                   Cancel
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => onDelete(book._id)}
-                  className="bg-red-600 hover:bg-red-700 text-white text-xs"
+                  className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white text-xs py-2 sm:py-2.5 cursor-pointer"
                 >
                   Confirm Delete
                 </AlertDialogAction>

@@ -19,7 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { signIn, signUp } from "@/lib/auth-client";
 
 const RegisterPage = () => {
-  const router = useRouter(); // ২. রাউটার ইনিশিয়ালাইজ করা হলো
+  const router = useRouter(); // ২. রাউটার ইনিশিয়ালাইজ করা হলো
 
   // ইনপুটের ডেটা রাখার স্টেট
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const RegisterPage = () => {
     if (name === "password") setPasswordError("");
   };
 
-  // পাসওয়ার্ড ভ্যালিডেশন
+  // পাসওয়ার্ড ভ্যালিডেশন
   const validatePassword = (password: string) => {
     if (password.length < 6) {
       return "Password must be at least 6 characters long.";
@@ -56,7 +56,7 @@ const RegisterPage = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // পাসওয়ার্ড চেক
+    // পাসওয়ার্ড চেক
     const errorPass = validatePassword(formData.password);
     if (errorPass) {
       setPasswordError(errorPass);
@@ -69,9 +69,9 @@ const RegisterPage = () => {
     });
 
     if (data) {
-      // সফল হলে মেসেজ দেখাবে এবং লগইন পেজে নিয়ে যাবে
+      // সফল হলে মেসেজ দেখাবে এবং লগইন পেজে নিয়ে যাবে
       toast.success("Account created successfully!");
-      router.push("/"); // এখানে রিডাইরেক্ট যোগ করা হয়েছে
+      router.push("/"); // এখানে রিডাইরেক্ট যোগ করা হয়েছে
     }
 
     if (error) {
@@ -82,7 +82,7 @@ const RegisterPage = () => {
   // ৪. গুগল লগইন হ্যান্ডলার
   const handleGoogleRegister = async () => {
     try {
-      // গুগল অথেন্টিকেশন শুরু হওয়ার বার্তা
+      // গুগল অথেন্টিকেশন শুরু হওয়ার বার্তা
       toast.loading("Connecting with Google...");
 
       await signIn.social({
@@ -95,24 +95,24 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-10 px-4">
-      <Card className="w-full max-w-md border border-[#E5E7EB] bg-white shadow-sm rounded-xl">
-        <CardHeader className="text-center pb-4">
-          <CardTitle className="text-2xl font-bold text-[#1E3A2F]">
+    <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-8 sm:py-12 px-3 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-sm sm:max-w-md border border-[#E5E7EB] bg-white shadow-sm rounded-xl overflow-hidden">
+        <CardHeader className="text-center p-5 sm:p-6 pb-3 sm:pb-4">
+          <CardTitle className="text-xl sm:text-2xl font-bold text-[#1E3A2F]">
             Register to BookNook
           </CardTitle>
-          <p className="text-sm text-[#6B7280] mt-1">
+          <p className="text-xs sm:text-sm text-[#6B7280] mt-1">
             Create an account to browse and share books
           </p>
         </CardHeader>
 
-        <CardContent>
-          <form onSubmit={handleRegister} className="space-y-4">
+        <CardContent className="p-5 sm:p-6 pt-0">
+          <form onSubmit={handleRegister} className="space-y-3.5 sm:space-y-4">
             {/* Name */}
             <div className="space-y-1">
               <Label
                 htmlFor="name"
-                className="text-sm font-medium text-[#1F2937]"
+                className="text-xs sm:text-sm font-medium text-[#1F2937]"
               >
                 Full Name
               </Label>
@@ -124,6 +124,7 @@ const RegisterPage = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
@@ -131,7 +132,7 @@ const RegisterPage = () => {
             <div className="space-y-1">
               <Label
                 htmlFor="email"
-                className="text-sm font-medium text-[#1F2937]"
+                className="text-xs sm:text-sm font-medium text-[#1F2937]"
               >
                 Email Address
               </Label>
@@ -143,6 +144,7 @@ const RegisterPage = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
@@ -150,7 +152,7 @@ const RegisterPage = () => {
             <div className="space-y-1">
               <Label
                 htmlFor="image"
-                className="text-sm font-medium text-[#1F2937]"
+                className="text-xs sm:text-sm font-medium text-[#1F2937]"
               >
                 Photo URL
               </Label>
@@ -162,6 +164,7 @@ const RegisterPage = () => {
                 required
                 value={formData.image}
                 onChange={handleChange}
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
@@ -169,7 +172,7 @@ const RegisterPage = () => {
             <div className="space-y-1">
               <Label
                 htmlFor="password"
-                className="text-sm font-medium text-[#1F2937]"
+                className="text-xs sm:text-sm font-medium text-[#1F2937]"
               >
                 Password
               </Label>
@@ -181,30 +184,33 @@ const RegisterPage = () => {
                 required
                 value={formData.password}
                 onChange={handleChange}
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
               {passwordError && (
-                <p className="text-xs text-red-500 font-medium mt-1">
+                <p className="text-[11px] sm:text-xs text-red-500 font-medium mt-1">
                   {passwordError}
                 </p>
               )}
             </div>
 
             {/* Register Button */}
-            <Button
-              type="submit"
-              className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-medium py-2 rounded-md"
-            >
-              Register
-            </Button>
+            <div className="pt-1 sm:pt-2">
+              <Button
+                type="submit"
+                className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-medium py-2.5 h-auto text-sm sm:text-base rounded-md transition-all cursor-pointer"
+              >
+                Register
+              </Button>
+            </div>
           </form>
 
           {/* Or Divider */}
-          <div className="relative my-6">
+          <div className="relative my-5 sm:my-6">
             <div className="absolute inset-0 flex items-center">
-              <Separator />
+              <Separator className="bg-[#E5E7EB]" />
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-[#6B7280]">
+            <div className="relative flex justify-center text-[11px] sm:text-xs uppercase">
+              <span className="bg-white px-2.5 text-[#6B7280]">
                 Or continue with
               </span>
             </div>
@@ -215,9 +221,9 @@ const RegisterPage = () => {
             type="button"
             variant="outline"
             onClick={handleGoogleRegister}
-            className="w-full flex items-center justify-center gap-2 border-[#E5E7EB]"
+            className="w-full flex items-center justify-center gap-2.5 border-[#E5E7EB] bg-white hover:bg-[#FDFBF7] text-[#1F2937] py-2.5 h-auto text-sm rounded-md transition-all cursor-pointer"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -235,18 +241,20 @@ const RegisterPage = () => {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
               />
             </svg>
-            <span>Continue with Google</span>
+            <span className="truncate">Continue with Google</span>
           </Button>
         </CardContent>
 
-        <CardFooter className="justify-center border-t border-[#F3F4F6] py-4 text-xs text-[#6B7280]">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="ml-1 font-semibold text-[#1E3A2F] hover:text-[#D97706]"
-          >
-            Login here
-          </Link>
+        <CardFooter className="justify-center border-t border-[#F3F4F6] py-3.5 sm:py-4 px-4 text-[11px] sm:text-xs text-[#6B7280] text-center">
+          <span>
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="ml-1 font-semibold text-[#1E3A2F] hover:text-[#D97706] transition-colors"
+            >
+              Login here
+            </Link>
+          </span>
         </CardFooter>
       </Card>
     </div>

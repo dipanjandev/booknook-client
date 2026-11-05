@@ -108,7 +108,7 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
     return (
       <Button
         disabled
-        className="w-full bg-[#1E3A2F]/80 text-white font-semibold py-3 h-auto text-base shadow-sm cursor-not-allowed"
+        className="w-full bg-[#1E3A2F]/80 text-white font-semibold py-2.5 sm:py-3 h-auto text-sm sm:text-base shadow-sm cursor-not-allowed"
       >
         Loading...
       </Button>
@@ -122,7 +122,7 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
           toast.error("Please login first to borrow books!");
           router.push("/login");
         }}
-        className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-3 h-auto text-base shadow-sm transition-colors cursor-pointer"
+        className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 sm:py-3 h-auto text-sm sm:text-base shadow-sm transition-colors cursor-pointer"
       >
         Borrow This Book
       </Button>
@@ -135,51 +135,55 @@ const BorrowButton = ({ book }: BorrowButtonProps) => {
         render={
           <Button
             disabled={book.quantity <= 0 || loading}
-            className="w-full bg-[#1E3A2F] hover:bg-[#162B23] disabled:bg-[#9CA3AF] text-white font-semibold py-3 h-auto text-base shadow-sm transition-colors cursor-pointer disabled:cursor-not-allowed"
+            className="w-full bg-[#1E3A2F] hover:bg-[#162B23] disabled:bg-[#9CA3AF] text-white font-semibold py-2.5 sm:py-3 h-auto text-sm sm:text-base shadow-sm transition-colors cursor-pointer disabled:cursor-not-allowed"
           >
             {loading ? "Borrowing..." : "Borrow This Book"}
           </Button>
         }
       />
 
-      <AlertDialogContent className="bg-white border border-[#E5E7EB] rounded-xl shadow-lg max-w-md">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl font-bold text-[#1E3A2F]">
+      <AlertDialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-sm sm:max-w-md bg-white border border-[#E5E7EB] rounded-2xl p-4 sm:p-6 shadow-lg">
+        <AlertDialogHeader className="space-y-1 sm:space-y-1.5 text-left">
+          <AlertDialogTitle className="text-lg sm:text-xl font-bold text-[#1E3A2F]">
             Confirm Borrowing
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-sm text-[#4B5563]">
+          <AlertDialogDescription className="text-xs sm:text-sm text-[#4B5563] leading-relaxed">
             Are you sure you want to borrow{" "}
-            <strong className="text-[#1F2937]">{book.title}</strong>? You can
-            keep this book for a maximum of <strong>7 days</strong>.
+            <strong className="text-[#1F2937] wrap-break-words">
+              {book.title}
+            </strong>
+            ? You can keep this book for a maximum of <strong>7 days</strong>.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         {/* ব্যবহারকারীর তথ্য ও রিটার্ন ডেট বক্স */}
-        <div className="bg-[#FDFBF7] border border-[#E5E7EB] rounded-lg p-3.5 my-2 space-y-2 text-xs">
+        <div className="bg-[#FDFBF7] border border-[#E5E7EB] rounded-lg p-3 sm:p-3.5 my-2 space-y-2 text-[11px] sm:text-xs">
           <div className="flex items-center gap-2 text-[#1F2937]">
-            <User className="w-4 h-4 text-[#D97706]" />
-            <span className="font-semibold">Borrower:</span>
-            <span>{user.name}</span>
+            <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D97706] shrink-0" />
+            <span className="font-semibold shrink-0">Borrower:</span>
+            <span className="truncate">{user.name}</span>
           </div>
           <div className="flex items-center gap-2 text-[#1F2937]">
-            <Mail className="w-4 h-4 text-[#D97706]" />
-            <span className="font-semibold">Email:</span>
-            <span>{user.email}</span>
+            <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D97706] shrink-0" />
+            <span className="font-semibold shrink-0">Email:</span>
+            <span className="truncate">{user.email}</span>
           </div>
-          <div className="flex items-center gap-2 text-[#1E3A2F] pt-1 border-t border-[#E5E7EB]/70 font-medium">
-            <CalendarClock className="w-4 h-4 text-[#D97706]" />
-            <span className="font-semibold">Return Deadline:</span>
-            <span>{formattedReturnDeadline} (Within 7 Days)</span>
+          <div className="flex items-center gap-2 text-[#1E3A2F] pt-1.5 border-t border-[#E5E7EB]/70 font-medium">
+            <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D97706] shrink-0" />
+            <span className="font-semibold shrink-0">Return Deadline:</span>
+            <span className="truncate">
+              {formattedReturnDeadline} (Within 7 Days)
+            </span>
           </div>
         </div>
 
-        <AlertDialogFooter>
-          <AlertDialogCancel className="border-[#E5E7EB] text-xs cursor-pointer">
+        <AlertDialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0 pt-1">
+          <AlertDialogCancel className="w-full sm:w-auto border-[#E5E7EB] text-xs py-2 sm:py-2.5 cursor-pointer mt-0">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleBorrow}
-            className="bg-[#1E3A2F] hover:bg-[#162B23] text-white text-xs cursor-pointer"
+            className="w-full sm:w-auto bg-[#1E3A2F] hover:bg-[#162B23] text-white text-xs py-2 sm:py-2.5 cursor-pointer"
           >
             Confirm Borrow
           </AlertDialogAction>

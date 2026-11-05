@@ -18,7 +18,7 @@ const MyBooksPage = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    // এখানে একটা ফাংশন ডিক্লিয়ার করা হয়েছে।
+    // এখানে একটা ফাংশন ডিক্লিয়ার করা হয়েছে।
     const fetchMyBooks = async (): Promise<void> => {
       // client side এ টোকেন এর জন্য।
       const { data, error } = await authClient.token();
@@ -40,7 +40,7 @@ const MyBooksPage = () => {
           console.error(err);
         });
     };
-    // ফাংশন এর শেষে ফাংশনটিকে কল করা হয়েছে।
+    // ফাংশন এর শেষে ফাংশনটিকে কল করা হয়েছে।
     fetchMyBooks();
   }, [user?.email, isPending, user]);
 
@@ -67,7 +67,7 @@ const MyBooksPage = () => {
 
       if (data.deletedCount > 0) {
         toast.success("Book deleted successfully!");
-        // UI থেকে সাথে সাথে রিমুভ করে দেওয়া
+        // UI থেকে সাথে সাথে রিমুভ করে দেওয়া
         setBooks((prev) => prev.filter((item) => item._id !== id));
       } else {
         toast.error("Failed to delete the book.");
@@ -83,7 +83,7 @@ const MyBooksPage = () => {
     updatedData: Partial<IBookType>,
   ): Promise<boolean> => {
     try {
-      // client side এ টোকেন এর জন্য। এখানে tokenData দেয়া হল কারণ, এখানে ডাটা দুই বার হয়ে গেছে সেজন্য।
+      // client side এ টোকেন এর জন্য। এখানে tokenData দেয়া হল কারণ, এখানে ডাটা দুই বার হয়ে গেছে সেজন্য।
       const { data: tokenData, error } = await authClient.token();
       const token = tokenData?.token;
       if (error) {
@@ -125,12 +125,12 @@ const MyBooksPage = () => {
   // লগইন না থাকলে
   if (!user) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4 bg-[#FDFBF7]">
-        <p className="text-[#1F2937] font-medium">
+      <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4 bg-[#FDFBF7] px-4 text-center">
+        <p className="text-sm sm:text-base text-[#1F2937] font-medium">
           Please log in to manage your added books.
         </p>
         <Link href="/login">
-          <Button className="bg-[#1E3A2F] hover:bg-[#162B23] text-white">
+          <Button className="bg-[#1E3A2F] hover:bg-[#162B23] text-white text-xs sm:text-sm px-5 py-2">
             Login
           </Button>
         </Link>
@@ -139,16 +139,16 @@ const MyBooksPage = () => {
   }
 
   return (
-    <div className="min-h-[85vh] bg-[#FDFBF7] py-12 px-4">
+    <div className="min-h-[85vh] bg-[#FDFBF7] py-8 sm:py-12 px-3 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-6xl">
         {books.length === 0 ? (
           /* বই না থাকলে: ফাঁকা স্টেট */
-          <div className="min-h-[50vh] flex flex-col items-center justify-center text-center space-y-4">
-            <h2 className="text-xl font-normal text-[#4B5563] font-serif">
+          <div className="min-h-[50vh] flex flex-col items-center justify-center text-center space-y-4 px-4">
+            <h2 className="text-lg sm:text-xl font-normal text-[#4B5563] font-serif">
               You have not added any books yet.
             </h2>
             <Link href="/addbooks">
-              <Button className="bg-[#1E3A2F] hover:bg-[#162B23] text-white px-6 py-2 rounded-md font-medium">
+              <Button className="bg-[#1E3A2F] hover:bg-[#162B23] text-white px-5 sm:px-6 py-2 rounded-md font-medium text-xs sm:text-sm shadow-xs">
                 Add Book
               </Button>
             </Link>
@@ -156,17 +156,17 @@ const MyBooksPage = () => {
         ) : (
           /* বই থাকলে: টেবিল ভিউ */
           <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-hidden shadow-xs">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto w-full">
+              <table className="w-full min-w-150 text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-[#E5E7EB] text-xs font-medium text-[#1F2937]">
-                    <th className="py-3 px-6">Book</th>
-                    <th className="py-3 px-6 text-center">Category</th>
-                    <th className="py-3 px-6 text-center">Copies</th>
-                    <th className="py-3 px-6 text-right">Actions</th>
+                  <tr className="border-b border-[#E5E7EB] text-xs font-medium text-[#1F2937] bg-[#FDFBF7]/50">
+                    <th className="py-3 px-4 sm:px-6">Book</th>
+                    <th className="py-3 px-4 sm:px-6 text-center">Category</th>
+                    <th className="py-3 px-4 sm:px-6 text-center">Copies</th>
+                    <th className="py-3 px-4 sm:px-6 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-[#E5E7EB]">
                   {books.map((book) => (
                     <MyBookRow
                       key={book._id}

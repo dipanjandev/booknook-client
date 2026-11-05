@@ -79,28 +79,28 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md border border-[#E5E7EB] bg-white shadow-md rounded-2xl overflow-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-8 sm:py-12 px-3 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-sm sm:max-w-md border border-[#E5E7EB] bg-white shadow-md rounded-2xl overflow-hidden">
         {/* Header */}
-        <CardHeader className="space-y-2 text-center pb-6 border-b border-[#F3F4F6]">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-[#1E3A2F]/10 flex items-center justify-center text-[#1E3A2F] mb-1">
-            <BookOpen className="w-6 h-6 text-[#1E3A2F]" />
+        <CardHeader className="space-y-1.5 sm:space-y-2 text-center p-5 sm:p-6 pb-5 sm:pb-6 border-b border-[#F3F4F6]">
+          <div className="mx-auto w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#1E3A2F]/10 flex items-center justify-center text-[#1E3A2F] mb-1">
+            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#1E3A2F]" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight text-[#1E3A2F]">
+          <CardTitle className="text-xl sm:text-2xl font-bold tracking-tight text-[#1E3A2F]">
             Sign in to BookNook
           </CardTitle>
-          <CardDescription className="text-sm text-[#6B7280]">
+          <CardDescription className="text-xs sm:text-sm text-[#6B7280]">
             Enter your details to access your books and shelf.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="pt-6">
-          <form onSubmit={handleLogin} className="space-y-4">
+        <CardContent className="p-5 sm:p-6 pt-5 sm:pt-6">
+          <form onSubmit={handleLogin} className="space-y-3.5 sm:space-y-4">
             {/* Email Field */}
             <div className="space-y-1.5">
               <Label
                 htmlFor="email"
-                className="text-xs font-semibold uppercase tracking-wider text-[#1F2937]"
+                className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#1F2937]"
               >
                 Email Address
               </Label>
@@ -114,7 +114,7 @@ const LoginForm = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-10 bg-[#FDFBF7]/50 border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                  className="pl-10 text-sm bg-[#FDFBF7]/50 border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
                 />
               </div>
             </div>
@@ -124,7 +124,7 @@ const LoginForm = () => {
               <div className="flex items-center justify-between">
                 <Label
                   htmlFor="password"
-                  className="text-xs font-semibold uppercase tracking-wider text-[#1F2937]"
+                  className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#1F2937]"
                 >
                   Password
                 </Label>
@@ -139,34 +139,36 @@ const LoginForm = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-10 bg-[#FDFBF7]/50 border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                  className="pl-10 text-sm bg-[#FDFBF7]/50 border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
                 />
               </div>
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 h-auto rounded-lg shadow-sm transition-all cursor-pointer"
-            >
-              {loading ? (
-                <div className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Signing in...</span>
-                </div>
-              ) : (
-                "Sign In"
-              )}
-            </Button>
+            <div className="pt-1 sm:pt-2">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 h-auto text-sm sm:text-base rounded-lg shadow-sm transition-all cursor-pointer"
+              >
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Signing in...</span>
+                  </div>
+                ) : (
+                  "Sign In"
+                )}
+              </Button>
+            </div>
           </form>
 
           {/* Separator */}
-          <div className="relative my-6">
+          <div className="relative my-5 sm:my-6">
             <div className="absolute inset-0 flex items-center">
               <Separator className="bg-[#E5E7EB]" />
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
+            <div className="relative flex justify-center text-[11px] sm:text-xs uppercase">
               <span className="bg-white px-2.5 text-[#6B7280] font-medium tracking-wider">
                 Or continue with
               </span>
@@ -178,9 +180,9 @@ const LoginForm = () => {
             type="button"
             variant="outline"
             onClick={handleGoogleLogin}
-            className="w-full border-[#E5E7EB] bg-white hover:bg-[#FDFBF7] text-[#1F2937] font-medium py-2.5 h-auto rounded-lg shadow-xs flex items-center justify-center gap-3 transition-all cursor-pointer"
+            className="w-full border-[#E5E7EB] bg-white hover:bg-[#FDFBF7] text-[#1F2937] font-medium py-2.5 h-auto text-sm rounded-lg shadow-xs flex items-center justify-center gap-2.5 sm:gap-3 transition-all cursor-pointer"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -198,19 +200,21 @@ const LoginForm = () => {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
               />
             </svg>
-            <span>Continue with Google</span>
+            <span className="truncate">Continue with Google</span>
           </Button>
         </CardContent>
 
         {/* Footer: Register Route */}
-        <CardFooter className="bg-[#FDFBF7]/60 border-t border-[#F3F4F6] py-4 flex justify-center text-xs text-[#6B7280]">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/register"
-            className="ml-1 font-semibold text-[#1E3A2F] hover:text-[#D97706] transition-colors"
-          >
-            Create an account
-          </Link>
+        <CardFooter className="bg-[#FDFBF7]/60 border-t border-[#F3F4F6] py-3.5 sm:py-4 px-4 flex justify-center text-[11px] sm:text-xs text-[#6B7280] text-center">
+          <span>
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/register"
+              className="ml-1 font-semibold text-[#1E3A2F] hover:text-[#D97706] transition-colors"
+            >
+              Create an account
+            </Link>
+          </span>
         </CardFooter>
       </Card>
     </div>
@@ -221,11 +225,13 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-md h-96 bg-white border border-[#E5E7EB] rounded-2xl flex items-center justify-center shadow-md">
+        <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center py-8 sm:py-12 px-3 sm:px-6 lg:px-8">
+          <div className="w-full max-w-sm sm:max-w-md h-80 sm:h-96 bg-white border border-[#E5E7EB] rounded-2xl flex items-center justify-center shadow-md">
             <div className="flex items-center gap-2 text-[#1E3A2F]">
-              <Loader2 className="w-6 h-6 animate-spin" />
-              <span className="text-sm font-medium">Loading login...</span>
+              <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
+              <span className="text-xs sm:text-sm font-medium">
+                Loading login...
+              </span>
             </div>
           </div>
         </div>

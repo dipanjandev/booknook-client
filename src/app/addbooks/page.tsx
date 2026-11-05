@@ -94,24 +94,24 @@ const AddBooksPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 md:py-12">
       <Card className="max-w-2xl mx-auto border-[#E5E7EB] bg-[#FFFFFF] shadow-sm">
-        <CardHeader className="border-b border-[#E5E7EB] pb-5">
-          <CardTitle className="text-2xl font-bold text-[#1E3A2F]">
+        <CardHeader className="border-b border-[#E5E7EB] p-4 sm:p-6 pb-4 sm:pb-5">
+          <CardTitle className="text-xl sm:text-2xl font-bold text-[#1E3A2F]">
             Add a New Book
           </CardTitle>
-          <CardDescription className="text-[#6B7280]">
+          <CardDescription className="text-xs sm:text-sm text-[#6B7280]">
             Fill in the details below to add a book to the library collection.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <CardContent className="p-4 sm:p-6 pt-5 sm:pt-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             {/* Book Title */}
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <Label
                 htmlFor="title"
-                className="text-sm font-semibold text-[#1F2937]"
+                className="text-xs sm:text-sm font-semibold text-[#1F2937]"
               >
                 Book Title
               </Label>
@@ -120,15 +120,15 @@ const AddBooksPage = () => {
                 name="title"
                 placeholder="e.g. The Great Gatsby"
                 required
-                className="border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
             {/* Author Name */}
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <Label
                 htmlFor="author"
-                className="text-sm font-semibold text-[#1F2937]"
+                className="text-xs sm:text-sm font-semibold text-[#1F2937]"
               >
                 Author Name
               </Label>
@@ -137,16 +137,16 @@ const AddBooksPage = () => {
                 name="author"
                 placeholder="e.g. F. Scott Fitzgerald"
                 required
-                className="border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
             {/* Category and Total Copies (Quantity) Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5 sm:space-y-2">
                 <Label
                   htmlFor="category"
-                  className="text-sm font-semibold text-[#1F2937]"
+                  className="text-xs sm:text-sm font-semibold text-[#1F2937]"
                 >
                   Category
                 </Label>
@@ -154,7 +154,7 @@ const AddBooksPage = () => {
                   onValueChange={(val) => setCategory(val as string)}
                   required
                 >
-                  <SelectTrigger className="border-[#E5E7EB] focus:ring-[#1E3A2F]">
+                  <SelectTrigger className="w-full text-sm border-[#E5E7EB] focus:ring-[#1E3A2F]">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#FFFFFF] border-[#E5E7EB]">
@@ -167,10 +167,10 @@ const AddBooksPage = () => {
                 </Select>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5 sm:space-y-2">
                 <Label
                   htmlFor="quantity"
-                  className="text-sm font-semibold text-[#1F2937]"
+                  className="text-xs sm:text-sm font-semibold text-[#1F2937]"
                 >
                   Total Copies
                 </Label>
@@ -181,16 +181,16 @@ const AddBooksPage = () => {
                   min="1"
                   defaultValue="1"
                   required
-                  className="border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                  className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
                 />
               </div>
             </div>
 
             {/* Book Image Link */}
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <Label
                 htmlFor="image"
-                className="text-sm font-semibold text-[#1F2937]"
+                className="text-xs sm:text-sm font-semibold text-[#1F2937]"
               >
                 Book Image URL
               </Label>
@@ -200,15 +200,15 @@ const AddBooksPage = () => {
                 type="url"
                 placeholder="Please Enter Your Image URL"
                 required
-                className="border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
             {/* Short Description */}
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <Label
                 htmlFor="description"
-                className="text-sm font-semibold text-[#1F2937]"
+                className="text-xs sm:text-sm font-semibold text-[#1F2937]"
               >
                 Short Description
               </Label>
@@ -218,16 +218,16 @@ const AddBooksPage = () => {
                 placeholder="Write a brief overview of the book..."
                 rows={4}
                 required
-                className="border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
+                className="text-sm border-[#E5E7EB] focus-visible:ring-[#1E3A2F]"
               />
             </div>
 
             {/* User Name & Email (Read-only) */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5 sm:space-y-2">
                 <Label
                   htmlFor="userName"
-                  className="text-sm font-semibold text-[#1F2937]"
+                  className="text-xs sm:text-sm font-semibold text-[#1F2937]"
                 >
                   User Name
                 </Label>
@@ -235,14 +235,14 @@ const AddBooksPage = () => {
                   id="userName"
                   value={user?.name ?? ""}
                   readOnly
-                  className="bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
+                  className="text-sm bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
                 />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5 sm:space-y-2">
                 <Label
                   htmlFor="userEmail"
-                  className="text-sm font-semibold text-[#1F2937]"
+                  className="text-xs sm:text-sm font-semibold text-[#1F2937]"
                 >
                   User Email
                 </Label>
@@ -250,18 +250,20 @@ const AddBooksPage = () => {
                   id="userEmail"
                   value={user?.email ?? ""}
                   readOnly
-                  className="bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
+                  className="text-sm bg-[#FDFBF7] border-[#E5E7EB] text-[#6B7280] cursor-not-allowed"
                 />
               </div>
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2 shadow-sm"
-            >
-              Add Book
-            </Button>
+            <div className="pt-2">
+              <Button
+                type="submit"
+                className="w-full bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold py-2.5 sm:py-2 text-sm sm:text-base shadow-sm transition-all"
+              >
+                Add Book
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

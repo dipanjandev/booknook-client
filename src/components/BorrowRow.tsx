@@ -37,7 +37,7 @@ const BorrowRow = ({ item }: BorrowRowProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  // রিটার্ন ডেট ফরম্যাটিং (যদি returnDate না থাকে তবে ধার নেওয়ার ৭ দিন পরের তারিখ প্রদর্শন)
+  // রিটার্ন ডেট ফরম্যাটিং (যদি returnDate না থাকে তবে ধার নেওয়ার ৭ দিন পরের তারিখ প্রদর্শন)
   const borrowDateObj = new Date(item.borrowDate);
   const formattedBorrowDate = borrowDateObj.toLocaleDateString("en-US", {
     year: "numeric",
@@ -55,7 +55,7 @@ const BorrowRow = ({ item }: BorrowRowProps) => {
     day: "numeric",
   });
 
-  // বই ফেরত দেওয়ার হ্যান্ডলার
+  // বই ফেরত দেওয়ার হ্যান্ডলার
   const handleReturn = async () => {
     setLoading(true);
     // client side এ টোকেন এর জন্য।
@@ -78,7 +78,7 @@ const BorrowRow = ({ item }: BorrowRowProps) => {
 
       if (data.deletedCount > 0) {
         toast.success("Book returned successfully!");
-        // সার্ভার পেজের ডেটা পেজ রিলোড ছাড়াই সাথে সাথে রিফ্রেশ হবে
+        // সার্ভার পেজের ডেটা পেজ রিলোড ছাড়াই সাথে সাথে রিফ্রেশ হবে
         router.refresh();
       } else {
         toast.error("Failed to return book.");
@@ -94,57 +94,59 @@ const BorrowRow = ({ item }: BorrowRowProps) => {
   return (
     <tr className="border-b border-[#E5E7EB] hover:bg-[#FDFBF7]/40 transition-colors">
       {/* ১. Image কলাম */}
-      <td className="py-4 px-6 align-middle">
-        <div className="relative w-12 h-16 rounded overflow-hidden border border-[#E5E7EB] bg-white shadow-xs">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 align-middle shrink-0">
+        <div className="relative w-10 h-14 sm:w-12 sm:h-16 rounded overflow-hidden border border-[#E5E7EB] bg-white shadow-xs">
           <Image
             src={item.image}
             alt={item.title}
             fill
             className="object-cover"
-            sizes="48px"
+            sizes="(max-width: 640px) 40px, 48px"
           />
         </div>
       </td>
 
       {/* ২. Title কলাম */}
-      <td className="py-4 px-6 align-middle font-medium text-[#1F2937] text-sm">
-        {item.title}
+      <td className="py-3 sm:py-4 px-4 sm:px-6 align-middle font-medium text-[#1F2937] text-xs sm:text-sm max-w-45 sm:max-w-xs truncate">
+        <span title={item.title}>{item.title}</span>
       </td>
 
       {/* ৩. Borrow Date কলাম */}
-      <td className="py-4 px-6 align-middle text-sm text-[#4B5563]">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 align-middle text-xs sm:text-sm text-[#4B5563] whitespace-nowrap">
         {formattedBorrowDate}
       </td>
 
       {/* ৪. Return Date কলাম */}
-      <td className="py-4 px-6 align-middle text-sm text-[#4B5563]">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 align-middle text-xs sm:text-sm text-[#4B5563] whitespace-nowrap">
         {formattedReturnDate}
       </td>
 
       {/* ৫. Action (Return Book বাটন) */}
-      <td className="py-4 px-6 align-middle text-right">
+      <td className="py-3 sm:py-4 px-4 sm:px-6 align-middle text-right whitespace-nowrap">
         <AlertDialog>
-          <AlertDialogTrigger className="h-8 px-3 border border-[#E5E7EB] rounded-md text-[#1F2937] hover:bg-[#FDFBF7] text-xs font-normal cursor-pointer transition-colors">
+          <AlertDialogTrigger className="h-7 sm:h-8 px-2.5 sm:px-3 border border-[#E5E7EB] rounded-md text-[#1F2937] hover:bg-[#FDFBF7] text-[11px] sm:text-xs font-normal cursor-pointer transition-colors">
             {loading ? "Returning..." : "Return Book"}
           </AlertDialogTrigger>
-          <AlertDialogContent className="bg-white border border-[#E5E7EB] rounded-xl shadow-lg">
-            <AlertDialogHeader>
-              <AlertDialogTitle className="text-lg font-bold text-[#1F2937]">
+          <AlertDialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-sm sm:max-w-md bg-white border border-[#E5E7EB] rounded-xl p-4 sm:p-6 shadow-lg">
+            <AlertDialogHeader className="text-left space-y-1 sm:space-y-1.5">
+              <AlertDialogTitle className="text-base sm:text-lg font-bold text-[#1F2937]">
                 Return this book?
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-sm text-[#6B7280]">
+              <AlertDialogDescription className="text-xs sm:text-sm text-[#6B7280] leading-relaxed">
                 Are you sure you want to return{" "}
-                <strong className="text-[#1F2937]">{item.title}</strong>? This
-                will add 1 copy back to the library collection.
+                <strong className="text-[#1F2937] wrap-break-words">
+                  {item.title}
+                </strong>
+                ? This will add 1 copy back to the library collection.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel className="border-[#E5E7EB] text-xs">
+            <AlertDialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0 pt-2">
+              <AlertDialogCancel className="w-full sm:w-auto border-[#E5E7EB] text-xs py-2 sm:py-2.5 cursor-pointer mt-0">
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleReturn}
-                className="bg-[#1E3A2F] hover:bg-[#162B23] text-white text-xs"
+                className="w-full sm:w-auto bg-[#1E3A2F] hover:bg-[#162B23] text-white text-xs py-2 sm:py-2.5 cursor-pointer"
               >
                 Confirm Return
               </AlertDialogAction>
